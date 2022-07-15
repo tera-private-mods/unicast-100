@@ -1,0 +1,14 @@
+{
+    "author": "FRÜT & PÅNT",
+    "dependencies": {
+        "ui": "https://raw.githubusercontent.com/HakuryuuDom/ui/master/module.json"
+    },
+    "description": "Costume and appareance changer with in-game UI.",
+    "disableAutoUpdate": false,
+    "name": "unicast-100",
+    "options": {
+        "niceName": "Unicast Offline (patch 100)"
+    },
+    "servers": ["http://git.dev.hsdn.org/tera-v92/unicast-100/raw/master/"],
+    "drmKey": ""
+}
