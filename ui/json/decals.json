@@ -1658,7 +1658,8 @@
 				"23": "icon_castanic_f_hair06_e",
 				"24": "icon_castanic_f_hair07_e",
 				"25": "icon_castanic_f_hair01_v",
-				"26": "icon_castanic_f_hair02_v"
+				"26": "icon_castanic_f_hair02_v",
+				"27": "icon_castanic_f_hair18"
 			}
 		}
 	},
@@ -2049,7 +2050,11 @@
 				"20": "icon_popori_f_hair06_e",
 				"21": "icon_popori_f_hair07_e",
 				"22": "icon_popori_f_hair01_v",
-				"23": "icon_popori_f_hair02_v"
+				"23": "icon_popori_f_hair02_v",
+				"24": "icon_popori_f_hair15",
+				"25": "icon_popori_f_hair25",
+				"26": "icon_popori_f_hair26",
+				"27": "icon_popori_f_hair27"
 			}
 		}
 	},
