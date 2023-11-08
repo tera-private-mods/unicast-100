@@ -4,8 +4,14 @@
     <script src="/_TERAToolbox/browserInit.js"></script>
     <script defer src="./vars"></script>
     <script>
+        if (typeof _tera_client_proxy_.alert != "undefined") {
+            window.alert = function() {
+                return _tera_client_proxy_.alert.apply(this, arguments);
+            };
+        }
+
         window.addEventListener('error', function (e) {
-            alert('[Unicast] Error: ' + e.message)
+            alert('[Unicast] Error: ' + e.message + ' (Line: ' + e.lineno + ')')
         })
 
         window.onload = function () {
@@ -98,7 +104,7 @@
                     <div class="content" v-for="item in paginated('favs')" :key="item">
                         <div class="icon" v-if="bookmarks['items'].indexOf(item) > -1">
                             <img class="smooth" :class="{active: equipped.indexOf(item) > -1}"
-                                :src="'https://gitlab.com/hsdn/tera-unicast-data/-/raw/master/icons/' + unidata.items[item].icon + '.png'"
+                                :src="'https://static.teragame.su/unicast-data/icons/' + unidata.items[item].icon + '.png'"
                                 @click="equip(item)">
                         </div>
                         <div class="entry" v-if="bookmarks['items'].indexOf(item) > -1">
@@ -146,7 +152,7 @@
                     <div class="content" v-for="item in paginated('favMounts')" :key="item.id">
                         <div class="icon">
                             <img class="smooth" :class="{active: equipped.indexOf(item.id) > -1}"
-                                :src="'https://gitlab.com/hsdn/tera-unicast-data/-/raw/master/icons/' + item.icon + '.png'"
+                                :src="'https://static.teragame.su/unicast-data/icons/' + item.icon + '.png'"
                                 @click="equipMount(item.id)">
                         </div>
                         <div class="entry">
@@ -547,12 +553,12 @@
 
                     <div class="slider-container">
                         <p>Pet Size</p>
-                        <input type="range" class="app-slider" v-model.lazy="ws_unicast.uniPetSize"
+                        <input type="range" class="app-slider" v-model.lazy="ws_unicast.uniPetSize || 1"
                             @input.lazy="updateKey('uniPetSize', Number($event.target.value))" step="0.1" min="0.1"
                             max="3.0">
                         <input style="max-width: 60px;width: 60px;" type="number" step="0.1" min="0.1" max="3.0"
                             @input="updateKey('uniPetSize', Number($event.target.value))"
-                            v-model.lazy="ws_unicast.uniPetSize">
+                            v-model.lazy="ws_unicast.uniPetSize || 1">
                     </div>
                     <div class=" buttons">
                         <a class="smooth btn" @click="ResetAll()">Reset All</a>
@@ -619,7 +625,7 @@
                         <h3>Hair Styles</h3>
                         <div class="icon" v-for="(item, index) in faces_decals[race][gender]['hairs']">
                             <img class="smooth" :class="{active: ws_unicast.appearance.hairStyle == index}"
-                                :src="'https://gitlab.com/hsdn/tera-unicast-data/-/raw/master/icons/' + faces_decals[race][gender]['hairs'][index] + '.png'"
+                                :src="'https://static.teragame.su/unicast-data/icons/' + faces_decals[race][gender]['hairs'][index] + '.png'"
                                 @click="updateSubKey('appearance', 'hairStyle', Number(index))">
                         </div>
                     </div>
@@ -630,7 +636,7 @@
                         <h3>Faces</h3>
                         <div class="icon" v-for="(item, index) in faces_decals[race][gender]">
                             <img class="smooth" :class="{active: ws_unicast.appearance.faceStyle == index}"
-                                :src="'https://gitlab.com/hsdn/tera-unicast-data/-/raw/master/icons/' + faces_decals[race][gender][index].icon + '.png'"
+                                :src="'https://static.teragame.su/unicast-data/icons/' + faces_decals[race][gender][index].icon + '.png'"
                                 @click="updateSubKey('appearance', 'faceStyle', index)" v-if="index !== 'hairs'">
                         </div>
                     </div>
@@ -643,7 +649,7 @@
                         <div class="icon"
                             v-for="(item, index) in faces_decals[race][gender][ws_unicast.appearance.faceStyle].decals">
                             <img class="smooth" :class="{active: ws_unicast.appearance.faceDecal == index}"
-                                :src="'https://gitlab.com/hsdn/tera-unicast-data/-/raw/master/icons/' + faces_decals[race][gender][ws_unicast.appearance.faceStyle]['decals'][index] + '.png'"
+                                :src="'https://static.teragame.su/unicast-data/icons/' + faces_decals[race][gender][ws_unicast.appearance.faceStyle]['decals'][index] + '.png'"
                                 @click="updateSubKey('appearance', 'faceDecal', index)">
                         </div>
                     </div>
@@ -654,7 +660,7 @@
                             v-for="(item, index) in faces_decals[race][gender][ws_unicast.appearance.faceStyle].decos">
 
                             <img class="smooth" :class="{active: ws_unicast.appearance.tattoos == index}"
-                                :src="'https://gitlab.com/hsdn/tera-unicast-data/-/raw/master/icons/' + faces_decals[race][gender][ws_unicast.appearance.faceStyle]['decos'][index] + '.png'"
+                                :src="'https://static.teragame.su/unicast-data/icons/' + faces_decals[race][gender][ws_unicast.appearance.faceStyle]['decos'][index] + '.png'"
                                 @click="updateSubKey('appearance', 'tattoos', index)">
                         </div>
                     </div>
@@ -838,7 +844,7 @@
                         <div class="icon">
                             <img class="smooth"
                                 :class="{active: equippedAbnormals.indexOf(item.id) > -1 || ws_unicast.uniAbn.indexOf(item.id) > -1}"
-                                :src="'https://gitlab.com/hsdn/tera-unicast-data/-/raw/master/icons/' + item.icon + '.png'"
+                                :src="'https://static.teragame.su/unicast-data/icons/' + item.icon + '.png'"
                                 @click="abnormal(item.id, item.type)">
                         </div>
                         <div class="entry">
@@ -919,7 +925,7 @@
                         <div class="icon">
                             <img class="smooth"
                                 :class="{active: item.id === 0 ? ws_unicast['styleWeapon'] === 0 && ws_unicast['weapon'] === 0 : equipped.indexOf(item.id) > -1}"
-                                :src="'https://gitlab.com/hsdn/tera-unicast-data/-/raw/master/icons/' + item.icon + '.png'" @click="equip(item.id)">
+                                :src="'https://static.teragame.su/unicast-data/icons/' + item.icon + '.png'" @click="equip(item.id)">
                         </div>
                         <div class="entry">
                             <i class="smooth fa fa-star bookmark-icon"
@@ -964,7 +970,7 @@
                     <div class="content" v-for="item in paginated('gear')" :key="item.id">
                         <div class="icon">
                             <img class="smooth" :class="{active: equipped.indexOf(item.id) > -1}"
-                                :src="'https://gitlab.com/hsdn/tera-unicast-data/-/raw/master/icons/' + item.icon + '.png'" @click="equip(item.id)">
+                                :src="'https://static.teragame.su/unicast-data/icons/' + item.icon + '.png'" @click="equip(item.id)">
                         </div>
                         <div class="entry">
                             <i class="smooth fa fa-star bookmark-icon"
@@ -1010,7 +1016,7 @@
                         <div class="content" v-for="item in paginated('mounts')" :key="item.id">
                             <div class="icon">
                                 <img class="smooth" :class="{active: equipped.indexOf(item.id) > -1}"
-                                    :src="'https://gitlab.com/hsdn/tera-unicast-data/-/raw/master/icons/' + item.icon + '.png'"
+                                    :src="'https://static.teragame.su/unicast-data/icons/' + item.icon + '.png'"
                                     @click="equipMount(item.id)">
                             </div>
                             <div class="entry">
@@ -1095,7 +1101,7 @@
                     <div class="content" v-for="item in paginated('footsteps')" :key="item.id">
                         <div class="icon">
                             <img class="smooth" :class="{active: equipped.indexOf(item.id) > -1}"
-                                :src="'https://gitlab.com/hsdn/tera-unicast-data/-/raw/master/icons/' + item.icon + '.png'" @click="equip(item.id)">
+                                :src="'https://static.teragame.su/unicast-data/icons/' + item.icon + '.png'" @click="equip(item.id)">
                         </div>
                         <div class="entry">
                             <i class="smooth fa fa-star bookmark-icon"
@@ -1499,7 +1505,7 @@
         <!-- How to use -->
         <div v-if="activeTab === 6">
             <div class="container">
-                <h2><a @click="_tera_client_proxy_.open_web('https://discord.gg/CZMYNhXwwS')">Discord (Tera Private Toolbox)</a></h2>
+                <h2><a @click="_tera_client_proxy_.open_web('https://discord.gg/CZMYNhXwwS')">Discord (Tera Toolbox Private)</a></h2>
 
                 <div style="background:#ddd;color:#000;padding:0 10px;text-align:center;">
                     For questions and updates, ask on discord: <span style="font-size:1.5em;">itunk</span>
@@ -1509,8 +1515,7 @@
                 <p>Most functions can be accessed from the UI</p>
 
                 <p>Prefix: u (ex: u reset, u ui)</p>
-                <p>Always use commands in /8 Proxy channel ~</p>
-                <p>__</p>
+                <p>Always use commands in /8 Proxy channel:</p>
 
                 <p>u ui -> opens ui (alternatively use "ctrl + shift + u")</p>
 
@@ -1545,6 +1550,13 @@
                 <p>- Unicast selected idles will resume after some time out of combat. (To speed up the transformation,
                     talk to an npc or use an emote)</p>
 
+            </div>
+        </div>
+
+        <!-- Notice -->
+        <div v-if="!config.online" class="notice" v-cloak>
+            <div class="notice-text">
+                Online Mode is now available! Go to <i class="fa fa-cog"></i> for enable.
             </div>
         </div>
         <link rel="stylesheet" :href="'./css/themes/'+ config.theme +'.css'">
